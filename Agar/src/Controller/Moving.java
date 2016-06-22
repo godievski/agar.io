@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * @author Godievski
  */
 public class Moving extends Thread{
-    private static final int INTERVALO = 50;
+    private static final int INTERVALO = 20;
     
     private String id;
     private GestorPlayer gp;

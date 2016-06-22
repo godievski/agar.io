@@ -91,9 +91,13 @@ public class Player {
     }
     
     private void calcularVector(double xFinal, double yFinal){
-        double y = yFinal - this.getCenterX();
-        double x = xFinal - this.getCenterY();
+        double y = yFinal - this.getCenterY();
+        double x = xFinal - this.getCenterX();
         double r = Math.sqrt(y*y + x*x);
+        if((double)this.getCell(0).getRadio() > r){
+            y = 0;
+            x = 0;
+        }
         this.vectorY = vel * y/r;
         this.vectorX = vel * x/r;
     }

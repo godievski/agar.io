@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -29,15 +30,19 @@ public class Player {
         this.vectorX = this.vectorY = this.vel = 0;
     }
     
+    public String getID(){
+        return this.id;
+    }
+    
     public double getCenterX(){
         if (cells.size() >= 1)
-            return this.cells.get(1).getCenterX();
+            return this.cells.get(0).getCenterX();
         else
             return -1;
     }
     public double getCenterY(){
         if (cells.size() >= 1)
-            return this.cells.get(1).getCenterY();
+            return this.cells.get(0).getCenterY();
         else
             return -1;
     }
@@ -48,13 +53,15 @@ public class Player {
             return null;
     }
     public void split(){
-        if (this.getCell(0).getMass() > 2*Cell.INIT_MASS){
+        int last = this.cells.size() - 1;
+        if (this.getCell(last).getMass() > 2*Cell.INIT_MASS){
             Cell oldCell = this.getCell(0);
             int newMass = oldCell.getMass() / 2;
             oldCell.setMass(newMass);
             Cell newCell = new Cell(0,0,oldCell.getColor(),newMass);
             int rad = newCell.getRadio();
             newCell.setCenterX(oldCell.getCenterX() + oldCell.getRadio() + rad);
+            newCell.setCenterY(oldCell.getCenterY());
             this.cells.add(newCell);
         }
     }
@@ -78,7 +85,7 @@ public class Player {
         return totalMass;
     }
     
-    private void calcularVelocidad(){
+    public void calcularVelocidad(){
         int totalMass = this.getMass();
         this.vel = INIT_VEL - 1/Math.log10(totalMass);
     }
@@ -89,5 +96,32 @@ public class Player {
         double r = Math.sqrt(y*y + x*x);
         this.vectorY = vel * y/r;
         this.vectorX = vel * x/r;
+    }
+    
+    public int countCells(){
+        return this.cells.size();
+    }
+    
+    public boolean checkCollision(Player other){
+        for(Cell cellSelf: this.cells){
+            for(Cell cellOther: other.cells){
+                int collision = cellSelf.checkCollision(cellOther);
+                if (collision == 1){
+                    cellSelf.setMass(cellSelf.getMass() + cellOther.getMass());
+                    other.cells.remove(cellOther);
+                } else if (collision == -1){
+                    cellOther.setMass(cellSelf.getMass() + cellOther.getMass());
+                    this.cells.remove(cellSelf);
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    public void render(Graphics g,double scale){
+        for(Cell cell: this.cells){
+            cell.render(g, scale);
+        }
     }
 }

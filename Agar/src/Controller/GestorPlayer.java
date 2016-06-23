@@ -3,7 +3,6 @@ package Controller;
 import Model.Player;
 import java.awt.Graphics;
 import java.rmi.RemoteException;
-import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,8 +20,8 @@ public class GestorPlayer extends UnicastRemoteObject implements IGestorPlayer{
     
     public GestorPlayer(GestorVirus gv) throws RemoteException{
         this.gv = gv;
-        this.players = new ArrayList();
-        int counter = 0;
+        this.players = new ArrayList<>();
+        this.counter = 0;
     }
     
     public Player getPlayerID(int id) throws RemoteException{
@@ -92,7 +91,7 @@ public class GestorPlayer extends UnicastRemoteObject implements IGestorPlayer{
     }
     
     public ArrayList getTop() throws RemoteException{
-        ArrayList<Player> playersTop = new ArrayList();
+        ArrayList<Player> playersTop = new ArrayList<>();
         return playersTop;
     }
     public Player getPlayerIterator(int index) throws RemoteException{

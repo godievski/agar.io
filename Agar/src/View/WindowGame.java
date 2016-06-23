@@ -1,11 +1,7 @@
 package View;
 
-import Controller.Collision;
-import Controller.GestorPlayer;
-import Controller.GestorVirus;
 import Controller.IGestorPlayer;
 import Controller.IGestorVirus;
-import Controller.Infecting;
 import Controller.Moving;
 import java.awt.Component;
 import java.awt.Dimension;

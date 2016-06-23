@@ -4,10 +4,8 @@ import Model.Cell;
 import Model.Player;
 import View.WindowGame;
 import java.util.ArrayList;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.rmi.RemoteException;
-import java.rmi.server.RemoteObject;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
@@ -20,7 +18,7 @@ public class GestorVirus extends UnicastRemoteObject implements IGestorVirus{
     private int counter;
     
     public GestorVirus() throws RemoteException{
-        this.virus = new ArrayList();
+        this.virus = new ArrayList<>();
         this.counter = 0;
     }
     

@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.Player;
 import View.WindowGame;
 import java.awt.MouseInfo;
 import java.awt.Point;

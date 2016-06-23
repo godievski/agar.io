@@ -27,7 +27,7 @@ public class Player implements Serializable {
         this.nickname = nickname;
         Cell cell = new Cell(xMax, yMax);
         cell.setVirus(false);
-        this.cells = new ArrayList();
+        this.cells = new ArrayList<>();
         this.cells.add(cell);
         this.vectorX = this.vectorY = this.vel = 0;
         this.mustDie = false;
@@ -172,7 +172,7 @@ public class Player implements Serializable {
             double x = cell.getCenterX();
             double y = cell.getCenterY();
             int r = cell.getRadio();
-            g.setFont(new Font("Ubuntu",Font.BOLD,r/2));
+            this.font = new Font("Ubuntu",Font.BOLD,r/2);
             FontMetrics metrics = g.getFontMetrics(font);
             int xt =(int) x - metrics.stringWidth(nickname)/2;
             int yt = (int) (y + metrics.getLeading()) ;

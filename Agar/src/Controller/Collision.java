@@ -1,5 +1,6 @@
 package Controller;
 
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,10 +20,10 @@ public class Collision extends Thread{
     
     public void run(){
         while(true){
-            gp.checkCollisions();
             try {
-                Thread.sleep(INTERVAL);
-            } catch (InterruptedException ex) {
+                gp.checkCollisions();
+                   Thread.sleep(INTERVAL);
+            } catch (RemoteException | InterruptedException ex) {
                 Logger.getLogger(Collision.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

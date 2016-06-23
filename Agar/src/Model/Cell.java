@@ -1,18 +1,17 @@
 package Model;
 
-import java.awt.BasicStroke;
+import View.WindowGame;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.io.Serializable;
 import java.util.Random;
 
 /**
  *
  * @author Godievski
  */
-public class Cell {
-    public static final int INIT_MASS = 100;
+public class Cell implements Serializable {
+    public static final int INIT_MASS = 150;
     public static final int MAX_RANGE_COLOR = 256;
     private static final Color COLOR_VIRUS = Color.GREEN;
     
@@ -23,6 +22,15 @@ public class Cell {
     private boolean virus;
     private int id; //PARA CUANDO SEAN VIRUS
     
+    public Cell(){
+        this.centerX = rand.nextInt(3*WindowGame.WINDOW_WIDTH/4)+ WindowGame.WINDOW_WIDTH/8;
+        this.centerY = rand.nextInt(3*WindowGame.WINDOW_HEIGHT/4)+ WindowGame.WINDOW_HEIGHT/8;
+        int r = rand.nextInt(MAX_RANGE_COLOR);
+        int g = rand.nextInt(MAX_RANGE_COLOR);
+        int b = rand.nextInt(MAX_RANGE_COLOR);
+        this.color = new Color(r,g,b);
+        this.mass = INIT_MASS;
+    }
     public Cell(int xMax, int yMax){
         this.centerX = rand.nextInt(3*xMax/4)+ xMax/8;
         this.centerY = rand.nextInt(3*yMax/4)+ yMax/8;
@@ -38,7 +46,7 @@ public class Cell {
         this.centerX = rand.nextInt(xMax-4)+4;
         this.centerY = rand.nextInt(yMax-4)+4;
         this.color = COLOR_VIRUS;
-        this.mass = INIT_MASS;
+        this.mass = INIT_MASS/2;
         this.virus = virus;
     }
     

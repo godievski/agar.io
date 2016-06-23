@@ -3,6 +3,8 @@ package View;
 import Controller.Collision;
 import Controller.GestorPlayer;
 import Controller.GestorVirus;
+import Controller.IGestorPlayer;
+import Controller.IGestorVirus;
 import Controller.Infecting;
 import Controller.Moving;
 import java.awt.Component;
@@ -10,6 +12,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -24,19 +30,20 @@ public class WindowGame extends JFrame{
     public static final int WINDOW_POS_X = 100;
     public static final int WINDOW_POS_Y = 50;
     
-    private GestorPlayer players;
-    private GestorVirus virus;
-    private String id;
+    private IGestorPlayer players;
+    private IGestorVirus virus;
+    private String nick;
+    private int id;
     private Login loginWindow;
     private DrawingSpace ds;
     
     private Moving movPlayer;
-    private Collision collision;
-    private Infecting infecting;
+    //private Collision collision;
+    //private Infecting infecting;
     
-    public WindowGame(){
-        initComponents();
-        this.loginWindow = new Login(this, false, players);
+    public WindowGame(String ip, String port) throws NotBoundException, MalformedURLException, RemoteException{
+        initComponents(ip, port);
+        this.loginWindow = new Login(this, false);
         this.loginWindow.setVisible(true);
     }
     
@@ -56,30 +63,31 @@ public class WindowGame extends JFrame{
         this.setIgnoreRepaint(false);
         
         //ADD PLAYER
-        this.id = this.loginWindow.getNickname();
-        this.players.addNewPlayer(id, this.getWidth(), this.getHeight());
-        
-        
-        this.players.addNewPlayer("xxx", this.getWidth()*2, this.getHeight()*2);
-        this.players.getPlayer("xxx").getCell(0).setCenterX(this.getWidth()/2);
-        this.players.getPlayer("xxx").getCell(0).setCenterY(this.getHeight()/2);
-        
-        
-        this.players.getPlayer(id).getCell(0).setMass(500);
-        //this.players.getPlayer(id).split();
+        this.nick = this.loginWindow.getNickname();
+        try {
+            this.id = this.players.addNewPlayer(nick, this.getWidth(), this.getHeight());
+            //this.players.addNewPlayer("xxx", this.getWidth()*2, this.getHeight()*2);
+            //this.players.getPlayer("xxx").getCell(0).setCenterX(this.getWidth()/2);
+            //this.players.getPlayer("xxx").getCell(0).setCenterY(this.getHeight()/2);
+            //this.players.getPlayer(id).getCell(0).setMass(5000);
+        } catch (RemoteException ex) {
+            Logger.getLogger(WindowGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         //LOCAL
         this.movPlayer = new Moving(id,players,this);
         this.movPlayer.start();
         
+        /*
         //SERVER
         this.collision = new Collision(players,virus);
         this.collision.start();
         this.infecting = new Infecting(virus);
         this.infecting.start();
+        */
         
         //PLAY
-        while(this.players.isAlive(id)){
+        while(true){
             this.ds.repaint();
             try {
                 Thread.sleep(10);
@@ -87,11 +95,9 @@ public class WindowGame extends JFrame{
                 Logger.getLogger(WindowGame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        //DEAD
-        System.exit(0);
     }
     
-    private void initComponents(){
+    private void initComponents(String ip, String port) throws NotBoundException, MalformedURLException, RemoteException{
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(false);
         this.setBounds(WINDOW_POS_X, WINDOW_POS_Y, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -100,8 +106,11 @@ public class WindowGame extends JFrame{
         this.setLocationRelativeTo(null);
         
         //SERVER
-        this.virus = new GestorVirus();
-        this.players = new GestorPlayer(this.virus);
+        //this.virus = new GestorVirus();
+        //this.players = new GestorPlayer(this.virus);
+        this.virus = (IGestorVirus) Naming.lookup("//"+ip+":"+port+"/virus");
+        this.players = (IGestorPlayer) Naming.lookup("//"+ip+":"+port+"/players");
+        ///
         
         this.ds = new DrawingSpace(this.players,this.virus, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         this.ds.setFocusable(false);
@@ -129,12 +138,12 @@ public class WindowGame extends JFrame{
     public void formKeyPressed(KeyEvent e){
         //SPLIT
         int code = e.getKeyCode();
-        if (code == KeyEvent.VK_X){
-            this.players.addNewPlayer(""+contador, this.getWidth()*2, this.getHeight()*2);
-            contador += 1;
-        }
         if (code == KeyEvent.VK_SPACE){
-            this.players.split(id);
+            try {
+                this.players.split(id);
+            } catch (RemoteException ex) {
+                Logger.getLogger(WindowGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

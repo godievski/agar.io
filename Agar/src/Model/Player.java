@@ -1,36 +1,44 @@
 package Model;
 
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author Godievski
  */
-public class Player {
+public class Player implements Serializable {
     private static final double INIT_VEL = 3.5;
     
-    private String id;
+    private int id;
+    private String nickname;
     private ArrayList<Cell> cells;
     private double vel;
     private double vectorX, vectorY;
     
     private boolean mustDie;
+    private Font font;
     
-    public Player(String id,int xMax, int yMax){
+    public Player(int id, String nickname,int xMax, int yMax){
         this.id = id;
+        this.nickname = nickname;
         Cell cell = new Cell(xMax, yMax);
         cell.setVirus(false);
         this.cells = new ArrayList();
         this.cells.add(cell);
         this.vectorX = this.vectorY = this.vel = 0;
         this.mustDie = false;
+        this.font = new Font("Ubuntu",Font.PLAIN,cell.getRadio()/2);
     }
     
-    public String getID(){
+    public int getID(){
         return this.id;
+    }
+    public String getNickname(){
+        return this.nickname;
     }
     
     public boolean getMustDie(){
@@ -159,13 +167,24 @@ public class Player {
         for(int i = 0; i < cells.size(); i++){
             cells.get(i).render(g, scale);
         }
-        if (!cells.get(0).getVirus()) {
-            double x = this.getCenterX();
-            double y = this.getCenterY();
-            int r = this.cells.get(0).getRadio();
-            g.setFont(new Font("Ubuntu", Font.BOLD, r/2));
-            g.drawString(id, (int)(x - r/2), (int) (y - r/8));
+        Cell cell = cells.get(0);
+        if (cell != null &&!cell.getVirus()) {
+            double x = cell.getCenterX();
+            double y = cell.getCenterY();
+            int r = cell.getRadio();
+            g.setFont(new Font("Ubuntu",Font.BOLD,r/2));
+            FontMetrics metrics = g.getFontMetrics(font);
+            int xt =(int) x - metrics.stringWidth(nickname)/2;
+            int yt = (int) (y + metrics.getLeading()) ;
+            g.setFont(font);
+            g.drawString(nickname, xt , yt);
         } 
         
+    }
+
+    public void reset() {
+        this.mustDie = false;
+        this.cells.clear();
+        this.cells.add(new Cell());
     }
 }

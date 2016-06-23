@@ -1,16 +1,18 @@
 package View;
 
-import Controller.GestorPlayer;
-import Controller.GestorVirus;
+import Controller.IGestorPlayer;
+import Controller.IGestorVirus;
+import Model.Cell;
 import Model.Player;
-import java.awt.BasicStroke;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,10 +24,10 @@ public class DrawingSpace extends Canvas{
     private Dimension dimAux;
     private final Dimension dimPanel;
     
-    private GestorPlayer players;
-    private GestorVirus virus;
+    private IGestorPlayer players;
+    private IGestorVirus virus;
     
-    public DrawingSpace(GestorPlayer players,GestorVirus virus, Dimension d){
+    public DrawingSpace(IGestorPlayer players,IGestorVirus virus, Dimension d){
         this.players = players;
         this.virus = virus;
         this.setSize(d);
@@ -64,17 +66,30 @@ public class DrawingSpace extends Canvas{
         //DIBUJA JUGADORES
         
         if (this.players != null) {
-            this.players.render(gAux, 1);
+            try {
+                this.renderPlayers(this.players,gAux);
+            } catch (RemoteException ex) {
+                Logger.getLogger(DrawingSpace.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             System.out.println("Players null");
         }
         if (this.virus != null){
-            this.virus.render(gAux, 1);
+            try {
+                this.renderVirus(this.virus,gAux);
+            } catch (RemoteException ex) {
+                Logger.getLogger(DrawingSpace.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }else {
             System.out.println("Virus null");
         }
-        ArrayList<Player> tops = players.getTop();
-        paintLaderBoard(tops, g);
+        ArrayList<Player> tops;
+        try {
+            tops = players.getTop();
+            paintLaderBoard(tops, g);
+        } catch (RemoteException ex) {
+            Logger.getLogger(DrawingSpace.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         g.drawImage(this.dibujoAux, 0, 0, this);
         g.dispose();
@@ -85,4 +100,17 @@ public class DrawingSpace extends Canvas{
         
     }
     
+    private void renderPlayers(IGestorPlayer player,Graphics g) throws RemoteException{
+        for(int i = 0; i < players.size(); i++){
+            Player p = players.getPlayerIterator(i);
+            p.render(g, 1);
+        }
+    }
+    
+    private void renderVirus(IGestorVirus virus,Graphics g) throws RemoteException{
+        for(int i = 0; i < virus.size(); i++){
+            Cell c = virus.getVirus(i);
+            c.render(g, 1);
+        }
+    }
 }

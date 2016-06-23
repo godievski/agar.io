@@ -1,5 +1,6 @@
 package Controller;
  
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
  
@@ -19,11 +20,11 @@ public class Infecting extends Thread {
     @Override
     public void run(){
         while(true){
-            gs.createVirus();
             try {
+                gs.createVirus();
                 Thread.sleep(INTERVALO);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Moving.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (RemoteException | InterruptedException ex) {
+                Logger.getLogger(Infecting.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

@@ -45,7 +45,10 @@ public class Cell implements Serializable {
         //ONLY FOR VIRUS
         this.centerX = rand.nextInt(xMax-4)+4;
         this.centerY = rand.nextInt(yMax-4)+4;
-        this.color = COLOR_VIRUS;
+        int r = rand.nextInt(MAX_RANGE_COLOR);
+        int g = rand.nextInt(MAX_RANGE_COLOR);
+        int b = rand.nextInt(MAX_RANGE_COLOR);
+        this.color = new Color(r,g,b);
         this.mass = INIT_MASS/2;
         this.virus = virus;
     }

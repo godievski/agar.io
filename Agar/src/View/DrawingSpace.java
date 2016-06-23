@@ -55,8 +55,7 @@ public class DrawingSpace extends Canvas{
         
         gAux.setColor(new Color(220, 220, 220));
         
-        
-        
+
         int espacio = 40;
         for (int i=0; i < dimPanel.width; i+=espacio)
             gAux.drawLine(i, 0, i, dimPanel.height);                    
@@ -83,8 +82,10 @@ public class DrawingSpace extends Canvas{
         }else {
             System.out.println("Virus null");
         }
-        ArrayList<Player> tops;
+        
+        //DRAW LADERBOARD
         try {
+            ArrayList<Player> tops;
             tops = players.getTop();
             paintLaderBoard(tops, g);
         } catch (RemoteException ex) {
@@ -100,17 +101,21 @@ public class DrawingSpace extends Canvas{
         
     }
     
-    private void renderPlayers(IGestorPlayer player,Graphics g) throws RemoteException{
+    private void renderPlayers(IGestorPlayer players,Graphics g) throws RemoteException{
         for(int i = 0; i < players.size(); i++){
-            Player p = players.getPlayerIterator(i);
-            p.render(g, 1);
+            try{
+                Player p = players.getPlayerIterator(i);
+                p.render(g, 1);
+            } catch(Exception ex){}
         }
     }
     
     private void renderVirus(IGestorVirus virus,Graphics g) throws RemoteException{
         for(int i = 0; i < virus.size(); i++){
-            Cell c = virus.getVirus(i);
-            c.render(g, 1);
+            try{
+                Cell c = virus.getVirus(i);
+                c.render(g, 1);
+            } catch(Exception ex){}
         }
     }
 }

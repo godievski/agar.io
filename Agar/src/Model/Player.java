@@ -1,5 +1,6 @@
 package Model;
 
+import View.WindowGame;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -98,15 +99,6 @@ public class Player implements Serializable {
             cell.move(this.vectorX, this.vectorY);
         }
     }
-    
-    public int getMass(){
-        int totalMass = 0;
-        for(Cell cell : cells){
-            totalMass += cell.getMass();
-        }
-        return totalMass;
-    }
-    
     public void calcularVelocidad(){
         int totalMass = this.getMass();
         this.vel = INIT_VEL - 1/Math.log10(totalMass);
@@ -120,8 +112,20 @@ public class Player implements Serializable {
             y = 0;
             x = 0;
         }
+        if((this.getCenterX() >= WindowGame.WINDOW_WIDTH && x > 0)|| (this.getCenterX() <= 0 && x < 0))
+            x = 0;
+        if((this.getCenterY() >= WindowGame.WINDOW_HEIGHT && y > 0) || (this.getCenterY() <= 0 && y < 0))
+            y = 0;
         this.vectorY = vel * y/r;
         this.vectorX = vel * x/r;
+    }
+    
+    public int getMass(){
+        int totalMass = 0;
+        for(Cell cell : cells){
+            totalMass += cell.getMass();
+        }
+        return totalMass;
     }
     
     public int countCells(){

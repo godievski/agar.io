@@ -15,7 +15,8 @@ import java.util.Random;
  */
 public class Cell {
     public static final int INIT_MASS = 100;
-    public static final int MAX_RANGE_COLOR = 200;
+    public static final int MAX_RANGE_COLOR = 256;
+    private static final Color COLOR_VIRUS = Color.GREEN;
     
     private double centerX, centerY;
     private int mass;
@@ -25,13 +26,22 @@ public class Cell {
     private int id; //PARA CUANDO SEAN VIRUS
     
     public Cell(int xMax, int yMax){
-        this.centerX = rand.nextInt(xMax - 4)+4;
-        this.centerY = rand.nextInt(yMax - 4)+4;
+        this.centerX = rand.nextInt(3*xMax/4)+ xMax/8;
+        this.centerY = rand.nextInt(3*yMax/4)+ yMax/8;
         int r = rand.nextInt(MAX_RANGE_COLOR);
         int g = rand.nextInt(MAX_RANGE_COLOR);
         int b = rand.nextInt(MAX_RANGE_COLOR);
         this.color = new Color(r,g,b);
         this.mass = INIT_MASS;
+    }
+    
+    public Cell(int xMax, int yMax,boolean virus){
+        //ONLY FOR VIRUS
+        this.centerX = rand.nextInt(xMax-4)+4;
+        this.centerY = rand.nextInt(yMax-4)+4;
+        this.color = COLOR_VIRUS;
+        this.mass = INIT_MASS;
+        this.virus = virus;
     }
     
     public void setID(int id){
@@ -95,11 +105,13 @@ public class Cell {
         int r = this.getRadio();
         g.setColor(this.color);
         g.fillOval((int) (this.centerX - r), (int) (this.centerY - r), 2*r, 2*r);
+        g.setColor(Color.BLACK);
+        g.drawOval((int) (this.centerX - r), (int) (this.centerY - r), 2*r, 2*r);
     }
     
     public int checkCollision(Cell other){
         double d = distance(this.centerX,this.centerY,other.centerX, other.centerY);
-        if (d > this.getRadio() + other.getRadio()){
+        if (d < this.getRadio() + other.getRadio()){
             if (this.mass > other.mass){
                 return 1;
             } else if (this.mass < other.mass){

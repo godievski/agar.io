@@ -24,7 +24,7 @@ public class Collision extends Thread{
     
     public void run(){
         while(true){
-            //gp.checkCollisions();
+            gp.checkCollisions();
             try {
                 Thread.sleep(INTERVAL);
             } catch (InterruptedException ex) {

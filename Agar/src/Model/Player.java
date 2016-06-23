@@ -21,6 +21,8 @@ public class Player {
     private double vel;
     private double vectorX, vectorY;
     
+    private boolean mustDie;
+    
     public Player(String id,int xMax, int yMax){
         this.id = id;
         Cell cell = new Cell(xMax, yMax);
@@ -28,10 +30,18 @@ public class Player {
         this.cells = new ArrayList();
         this.cells.add(cell);
         this.vectorX = this.vectorY = this.vel = 0;
+        this.mustDie = false;
     }
     
     public String getID(){
         return this.id;
+    }
+    
+    public boolean getMustDie(){
+        return this.mustDie;
+    }
+    public void updateExistence(){
+        this.mustDie = this.cells.isEmpty();
     }
     
     public double getCenterX(){
@@ -63,6 +73,17 @@ public class Player {
             newCell.setCenterX(oldCell.getCenterX() + oldCell.getRadio() + rad);
             newCell.setCenterY(oldCell.getCenterY());
             this.cells.add(newCell);
+        }
+    }
+    
+    public void recalculatePositionCells(){
+        if(cells.size()>0){
+            for(int i = 1; i < cells.size(); i++){
+                Cell cellPrincipal = cells.get(i-1);
+                Cell cell = cells.get(i);
+                cell.setCenterX(cellPrincipal.getCenterX() + cell.getRadio() + cellPrincipal.getRadio());
+                cell.setCenterY(cellPrincipal.getCenterY());
+            }
         }
     }
     
@@ -104,25 +125,43 @@ public class Player {
     }
     
     public boolean checkCollision(Player other){
-        for(Cell cellSelf: this.cells){
-            for(Cell cellOther: other.cells){
+        for(int i = 0; i < cells.size(); i++){
+            Cell cellSelf = cells.get(i);
+            for(int j = 0; j < other.cells.size(); j++){
+                Cell cellOther = other.cells.get(j);
                 int collision = cellSelf.checkCollision(cellOther);
                 if (collision == 1){
-                    cellSelf.setMass(cellSelf.getMass() + cellOther.getMass());
+                    cellSelf.incrementMass(cellOther.getMass());
+                    this.recalculatePositionCells();
                     other.cells.remove(cellOther);
+                    other.updateExistence();
                 } else if (collision == -1){
-                    cellOther.setMass(cellSelf.getMass() + cellOther.getMass());
+                    cellOther.incrementMass(cellSelf.getMass());
+                    other.recalculatePositionCells();
                     this.cells.remove(cellSelf);
+                    this.updateExistence();
                 }
             }
         }
-        
+        return true;
+    }
+    
+    public boolean checkCollision(Cell cell){
+        for(int i = 0; i < cells.size(); i++){
+            Cell cellSelf = cells.get(i);
+            int collision = cellSelf.checkCollision(cell);
+            if (collision != 0){
+                cellSelf.incrementMass(cell.getMass());
+                this.recalculatePositionCells();
+                return true;
+            }
+        }
         return false;
     }
     
     public void render(Graphics g,double scale){
-        for(Cell cell: this.cells){
-            cell.render(g, scale);
+        for(int i = 0; i < cells.size(); i++){
+            cells.get(i).render(g, scale);
         }
     }
 }

@@ -65,11 +65,14 @@ public class WindowGame extends JFrame{
         //ADD PLAYER
         this.id = this.loginWindow.getNickname();
         this.players.addNewPlayer(id, this.getWidth(), this.getHeight());
-        //this.players.addNewPlayer("xxx", this.getWidth()*2, this.getHeight()*2);
-        //this.players.getPlayer("xxx").getCell(0).setCenterX(this.getWidth() - 100);
-        //this.players.getPlayer("xxx").getCell(0).setCenterY(this.getHeight() - 100);
+        
+        this.players.addNewPlayer("xxx", this.getWidth()*2, this.getHeight()*2);
+        this.players.getPlayer("xxx").getCell(0).setCenterX(this.getWidth()/2);
+        this.players.getPlayer("xxx").getCell(0).setCenterY(this.getHeight()/2);
+        
         this.players.getPlayer(id).getCell(0).setMass(500);
         this.players.getPlayer(id).split();
+        
         //LOCAL
         this.movPlayer = new Moving(id,players,this);
         this.movPlayer.start();
@@ -90,9 +93,7 @@ public class WindowGame extends JFrame{
             }
         }
         //DEAD
-        //DELETE PLAYER
-        
-        //System.exit(0);
+        System.exit(0);
     }
     
     private void initComponents(){
@@ -104,8 +105,8 @@ public class WindowGame extends JFrame{
         this.setLocationRelativeTo(null);
         
         //SERVER
-        this.players = new GestorPlayer();
         this.virus = new GestorVirus();
+        this.players = new GestorPlayer(this.virus);
         
         this.ds = new DrawingSpace(this.players,this.virus, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         this.ds.setFocusable(false);
@@ -128,7 +129,14 @@ public class WindowGame extends JFrame{
         }
     }
     
+    int contador = 0;
+    
     public void formKeyPressed(KeyEvent e){
         //SPLIT
+        int code = e.getKeyCode();
+        if (code == KeyEvent.VK_X){
+            this.players.addNewPlayer(""+contador, this.getWidth()*2, this.getHeight()*2);
+            contador += 1;
+        }
     }
 }

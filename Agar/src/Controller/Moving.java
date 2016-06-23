@@ -33,8 +33,9 @@ public class Moving extends Thread{
     @Override
     public void run(){
         while(true){
-            this.calcPositionMouse();
+            this.updatePositionMouse();
             gp.mover(id, xFinal, yFinal);
+            gp.checkCollisionVirus(id);
             try {
                 Thread.sleep(INTERVALO);
             } catch (InterruptedException ex) {
@@ -43,7 +44,7 @@ public class Moving extends Thread{
         }
     }
     
-    private void calcPositionMouse(){
+    private void updatePositionMouse(){
         Point mouse = MouseInfo.getPointerInfo().getLocation();
         Point window = wg.getLocationOnScreen();
         this.xFinal = mouse.x - window.x;

@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.Cell;
+import Model.Player;
 import View.WindowGame;
 import java.util.ArrayList;
 import java.awt.Color;
@@ -28,13 +29,14 @@ public class GestorVirus {
     
     public void createVirus(){
         if (this.virus.size() < MAX_VIRUS){
-            Cell newVirus = new Cell(WindowGame.WINDOW_WIDTH, WindowGame.WINDOW_HEIGHT);
-            newVirus.setVirus(true);
-            newVirus.setColor(COLOR_VIRUS);
+            Cell newVirus = new Cell(WindowGame.WINDOW_WIDTH, WindowGame.WINDOW_HEIGHT,true);
             newVirus.setID(counter);
             this.counter += 1;
             this.virus.add(newVirus);
         }
+    }
+    public int size(){
+        return this.virus.size();
     }
     
     public void deleteVirus(int id){
@@ -57,6 +59,17 @@ public class GestorVirus {
         for(int i = 0; i < virus.size(); i++){
             Cell v = virus.get(i);
             v.render(g, scale);
+        }
+    }
+
+    public void checkCollisions(Player p) {
+        for(int i = 0; i < virus.size(); i++){
+            Cell v = virus.get(i);
+            boolean collision = p.checkCollision(v);
+            if (collision){
+                virus.remove(i);
+                break;
+            }
         }
     }
     

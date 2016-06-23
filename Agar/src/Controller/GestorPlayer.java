@@ -3,9 +3,6 @@ package Controller;
 import Model.Player;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -65,6 +62,7 @@ public class GestorPlayer {
                 Player p2 = this.players.get(j);
                 p1.checkCollision(p2);
                 if(p1.getMustDie()){
+                    /////////
                     this.players.remove(i);
                     i-=1;
                     break;
@@ -99,5 +97,18 @@ public class GestorPlayer {
         if(p!=null){
             gv.checkCollisions(p);
         }
+    }
+
+    public void split(String id) {
+        Player p = this.getPlayer(id);
+        if(p != null){
+            p.split();
+        }
+    }
+    
+    public ArrayList getTop(){
+        ArrayList<Player> playersTop = new ArrayList();
+        
+        return playersTop;
     }
 }

@@ -1,5 +1,6 @@
 package Model;
 
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -158,5 +159,13 @@ public class Player {
         for(int i = 0; i < cells.size(); i++){
             cells.get(i).render(g, scale);
         }
+        if (!cells.get(0).getVirus()) {
+            double x = this.getCenterX();
+            double y = this.getCenterY();
+            int r = this.cells.get(0).getRadio();
+            g.setFont(new Font("Ubuntu", Font.BOLD, r/2));
+            g.drawString(id, (int)(x - r/2), (int) (y - r/8));
+        } 
+        
     }
 }

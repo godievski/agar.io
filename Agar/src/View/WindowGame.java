@@ -36,7 +36,7 @@ public class WindowGame extends JFrame{
     
     public WindowGame(){
         initComponents();
-        this.loginWindow = new Login(this, false);
+        this.loginWindow = new Login(this, false, players);
         this.loginWindow.setVisible(true);
     }
     
@@ -55,18 +55,18 @@ public class WindowGame extends JFrame{
         this.setLocationRelativeTo(null);
         this.setIgnoreRepaint(false);
         
-        
-        
         //ADD PLAYER
         this.id = this.loginWindow.getNickname();
         this.players.addNewPlayer(id, this.getWidth(), this.getHeight());
+        
         
         this.players.addNewPlayer("xxx", this.getWidth()*2, this.getHeight()*2);
         this.players.getPlayer("xxx").getCell(0).setCenterX(this.getWidth()/2);
         this.players.getPlayer("xxx").getCell(0).setCenterY(this.getHeight()/2);
         
+        
         this.players.getPlayer(id).getCell(0).setMass(500);
-        this.players.getPlayer(id).split();
+        //this.players.getPlayer(id).split();
         
         //LOCAL
         this.movPlayer = new Moving(id,players,this);
@@ -132,6 +132,9 @@ public class WindowGame extends JFrame{
         if (code == KeyEvent.VK_X){
             this.players.addNewPlayer(""+contador, this.getWidth()*2, this.getHeight()*2);
             contador += 1;
+        }
+        if (code == KeyEvent.VK_SPACE){
+            this.players.split(id);
         }
     }
 }

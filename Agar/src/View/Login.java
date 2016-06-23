@@ -1,7 +1,7 @@
 package View;
 
+import Controller.GestorPlayer;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 /**
  *
@@ -24,16 +23,20 @@ public class Login extends JDialog{
     private final JTextField jtfUsername = new JTextField(15);
     private final JButton jbtOk = new JButton("Play");
     private final JButton jbtCancel = new JButton("Cancel");
+    
 
     private boolean state;
+    private final GestorPlayer gp;
     
-    public Login() {
+    public Login(GestorPlayer gp) {
         //this(null, true);
         this.state = false;
+        this.gp = gp;
     }
 
-    public Login(final JFrame parent, boolean modal) {
+    public Login(final JFrame parent, boolean modal, final GestorPlayer gp) {
         super(parent, modal);
+        this.gp = gp;
         this.state = false;
         this.setTitle("Agar by Godievski");
         
@@ -72,18 +75,21 @@ public class Login extends JDialog{
         jbtOk.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                parent.setVisible(true);
-                setVisible(false);
-                WindowGame w = (WindowGame) parent;
-                state = true;
+                if (gp.checkID(jtfUsername.getText())){
+                    parent.setVisible(true);
+                    setVisible(false);
+                    state = true;
+                }
             }
         });
         jbtCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
                 setVisible(false);
                 parent.dispose();
                 System.exit(0);
+                
             }
         });
     }

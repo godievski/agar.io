@@ -2,6 +2,7 @@ package View;
 
 import Controller.GestorPlayer;
 import Controller.GestorVirus;
+import Model.Player;
 import java.awt.BasicStroke;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -9,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.util.ArrayList;
 
 /**
  *
@@ -51,20 +53,13 @@ public class DrawingSpace extends Canvas{
         
         gAux.setColor(new Color(220, 220, 220));
         
-        // se hace esto porque mantiene la interfaz antigua
-        Graphics2D gAux2 = (Graphics2D) gAux;
-        gAux2.setStroke(new BasicStroke(2));
+        
         
         int espacio = 40;
         for (int i=0; i < dimPanel.width; i+=espacio)
-            gAux2.drawLine(i, 0, i, dimPanel.height);                    
+            gAux.drawLine(i, 0, i, dimPanel.height);                    
         for (int j=0; j < dimPanel.height; j+=espacio)
-            gAux2.drawLine(0, j, dimPanel.width, j);
-        
-        
-        // pa q las bolitas saldrian gruesas
-//        gAux2.setStroke(new BasicStroke(2));
-        
+            gAux.drawLine(0, j, dimPanel.width, j);
         
         //DIBUJA JUGADORES
         
@@ -78,9 +73,16 @@ public class DrawingSpace extends Canvas{
         }else {
             System.out.println("Virus null");
         }
-
+        ArrayList<Player> tops = players.getTop();
+        paintLaderBoard(tops, g);
+        
         g.drawImage(this.dibujoAux, 0, 0, this);
         g.dispose();
+    }
+    
+    
+    private void paintLaderBoard(ArrayList<Player> tops, Graphics g){
+        
     }
     
 }

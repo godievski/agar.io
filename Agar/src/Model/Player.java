@@ -150,7 +150,7 @@ public class Player {
         for(int i = 0; i < cells.size(); i++){
             Cell cellSelf = cells.get(i);
             int collision = cellSelf.checkCollision(cell);
-            if (collision != 0){
+            if (collision != 0 && cell.getVirus()){
                 cellSelf.incrementMass(cell.getMass());
                 this.recalculatePositionCells();
                 return true;

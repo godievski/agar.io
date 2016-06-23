@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Random;
 
@@ -107,6 +103,12 @@ public class Cell {
         g.fillOval((int) (this.centerX - r), (int) (this.centerY - r), 2*r, 2*r);
         g.setColor(Color.BLACK);
         g.drawOval((int) (this.centerX - r), (int) (this.centerY - r), 2*r, 2*r);
+        
+        if (!virus) {
+            String nombre = "diego";
+            g.setFont(new Font("Ubuntu", Font.BOLD, r/2));
+            g.drawString(nombre, (int) this.centerX - r, (int) this.centerY + r/8);
+        }        
     }
     
     public int checkCollision(Cell other){

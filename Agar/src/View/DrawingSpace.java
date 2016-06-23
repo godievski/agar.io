@@ -6,6 +6,7 @@
 package View;
 
 import Controller.GestorPlayer;
+import Controller.GestorVirus;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,9 +24,11 @@ public class DrawingSpace extends Canvas{
     private final Dimension dimPanel;
     
     private GestorPlayer players;
+    private GestorVirus virus;
     
-    public DrawingSpace(GestorPlayer players, Dimension d){
+    public DrawingSpace(GestorPlayer players,GestorVirus virus, Dimension d){
         this.players = players;
+        this.virus = virus;
         this.setSize(d);
         this.dimPanel = d;
     }
@@ -54,7 +57,12 @@ public class DrawingSpace extends Canvas{
         if (this.players != null) {
             this.players.render(gAux, 1);
         } else {
-            System.out.println("ERROR NULO");
+            System.out.println("Players null");
+        }
+        if (this.virus != null){
+            this.virus.render(gAux, 1);
+        }else {
+            System.out.println("Virus null");
         }
 
         g.drawImage(this.dibujoAux, 0, 0, this);

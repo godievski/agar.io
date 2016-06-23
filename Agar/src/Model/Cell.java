@@ -34,7 +34,6 @@ public class Cell {
         this.mass = INIT_MASS;
     }
     
-    
     public void setID(int id){
         this.id = id;
     }

@@ -9,6 +9,7 @@ import Model.Cell;
 import View.WindowGame;
 import java.util.ArrayList;
 import java.awt.Color;
+import java.awt.Graphics;
 
 /**
  *
@@ -32,6 +33,7 @@ public class GestorVirus {
             newVirus.setColor(COLOR_VIRUS);
             newVirus.setID(counter);
             this.counter += 1;
+            this.virus.add(newVirus);
         }
     }
     
@@ -49,6 +51,13 @@ public class GestorVirus {
                 return v;
         }
         return null;
+    }
+    
+    public void render(Graphics g, double scale){
+        for(int i = 0; i < virus.size(); i++){
+            Cell v = virus.get(i);
+            v.render(g, scale);
+        }
     }
     
 }

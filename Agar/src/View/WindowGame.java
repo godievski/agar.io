@@ -8,6 +8,7 @@ package View;
 import Controller.Collision;
 import Controller.GestorPlayer;
 import Controller.GestorVirus;
+import Controller.Infecting;
 import Controller.Moving;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -36,6 +37,7 @@ public class WindowGame extends JFrame{
     
     private Moving movPlayer;
     private Collision collision;
+    private Infecting infecting;
     
     public WindowGame(){
         initComponents();
@@ -68,11 +70,16 @@ public class WindowGame extends JFrame{
         //this.players.getPlayer("xxx").getCell(0).setCenterY(this.getHeight() - 100);
         this.players.getPlayer(id).getCell(0).setMass(500);
         this.players.getPlayer(id).split();
-        
+        //LOCAL
         this.movPlayer = new Moving(id,players,this);
         this.movPlayer.start();
+        
+        //SERVER
         this.collision = new Collision(players,virus);
         this.collision.start();
+        this.infecting = new Infecting(virus);
+        this.infecting.start();
+        
         //PLAY
         while(this.players.isAlive(id)){
             this.ds.repaint();
@@ -84,6 +91,7 @@ public class WindowGame extends JFrame{
         }
         //DEAD
         //DELETE PLAYER
+        
         //System.exit(0);
     }
     
@@ -95,9 +103,11 @@ public class WindowGame extends JFrame{
         this.setFocusable(true);
         this.setLocationRelativeTo(null);
         
+        //SERVER
         this.players = new GestorPlayer();
         this.virus = new GestorVirus();
-        this.ds = new DrawingSpace(this.players, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        
+        this.ds = new DrawingSpace(this.players,this.virus, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         this.ds.setFocusable(false);
         this.ds.setIgnoreRepaint(false);
         this.add((Component)this.ds);

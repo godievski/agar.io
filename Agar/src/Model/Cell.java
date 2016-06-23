@@ -15,24 +15,35 @@ import java.util.Random;
  */
 public class Cell {
     public static final int INIT_MASS = 100;
+    public static final int MAX_RANGE_COLOR = 200;
     
     private double centerX, centerY;
     private int mass;
     private Color color;
     private static Random rand = new Random();
     private boolean virus;
+    private int id; //PARA CUANDO SEAN VIRUS
     
     public Cell(int xMax, int yMax){
-        this.centerX = rand.nextInt(xMax/2 - 4)+4;
-        this.centerY = rand.nextInt(yMax/2 - 4)+4;
-        int r = rand.nextInt(256);
-        int g = rand.nextInt(256);
-        int b = rand.nextInt(256);
+        this.centerX = rand.nextInt(xMax - 4)+4;
+        this.centerY = rand.nextInt(yMax - 4)+4;
+        int r = rand.nextInt(MAX_RANGE_COLOR);
+        int g = rand.nextInt(MAX_RANGE_COLOR);
+        int b = rand.nextInt(MAX_RANGE_COLOR);
         this.color = new Color(r,g,b);
-        this.color = Color.BLUE;
         this.mass = INIT_MASS;
     }
     
+    
+    public void setID(int id){
+        this.id = id;
+    }
+    public int getID(){
+        return this.id;
+    }
+    public void setColor(Color color){
+        this.color = color;
+    }
     public Color getColor(){
         return this.color;
     }
@@ -63,12 +74,19 @@ public class Cell {
     public void setCenterY(double centerY) {
         this.centerY = centerY;
     }
+    public void move(double x, double y){
+        this.centerX += x;
+        this.centerY += y;
+    }
     
     public int getMass() {
         return mass;
     }
     public void setMass(int mass) {
         this.mass = mass;
+    }
+    public void incrementMass(int value){
+        this.mass += value;
     }
     
     public int getRadio(){

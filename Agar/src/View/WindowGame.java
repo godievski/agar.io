@@ -5,23 +5,15 @@
  */
 package View;
 
+import Controller.Collision;
 import Controller.GestorPlayer;
+import Controller.GestorVirus;
 import Controller.Moving;
-import Model.Cell;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -37,10 +29,13 @@ public class WindowGame extends JFrame{
     public static final int WINDOW_POS_Y = 50;
     
     private GestorPlayer players;
+    private GestorVirus virus;
     private String id;
     private Login loginWindow;
     private DrawingSpace ds;
+    
     private Moving movPlayer;
+    private Collision collision;
     
     public WindowGame(){
         initComponents();
@@ -68,8 +63,16 @@ public class WindowGame extends JFrame{
         //ADD PLAYER
         this.id = this.loginWindow.getNickname();
         this.players.addNewPlayer(id, this.getWidth(), this.getHeight());
+        //this.players.addNewPlayer("xxx", this.getWidth()*2, this.getHeight()*2);
+        //this.players.getPlayer("xxx").getCell(0).setCenterX(this.getWidth() - 100);
+        //this.players.getPlayer("xxx").getCell(0).setCenterY(this.getHeight() - 100);
+        this.players.getPlayer(id).getCell(0).setMass(500);
+        this.players.getPlayer(id).split();
+        
         this.movPlayer = new Moving(id,players,this);
         this.movPlayer.start();
+        this.collision = new Collision(players,virus);
+        this.collision.start();
         //PLAY
         while(this.players.isAlive(id)){
             this.ds.repaint();
@@ -93,6 +96,7 @@ public class WindowGame extends JFrame{
         this.setLocationRelativeTo(null);
         
         this.players = new GestorPlayer();
+        this.virus = new GestorVirus();
         this.ds = new DrawingSpace(this.players, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         this.ds.setFocusable(false);
         this.ds.setIgnoreRepaint(false);

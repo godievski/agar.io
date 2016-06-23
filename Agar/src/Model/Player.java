@@ -55,7 +55,7 @@ public class Player {
     public void split(){
         int last = this.cells.size() - 1;
         if (this.getCell(last).getMass() > 2*Cell.INIT_MASS){
-            Cell oldCell = this.getCell(0);
+            Cell oldCell = this.getCell(last);
             int newMass = oldCell.getMass() / 2;
             oldCell.setMass(newMass);
             Cell newCell = new Cell(0,0,oldCell.getColor(),newMass);
@@ -70,10 +70,7 @@ public class Player {
         this.calcularVelocidad();
         this.calcularVector(x, y);
         for(Cell cell: cells){
-            double xCell = cell.getCenterX();
-            double yCell = cell.getCenterY();
-            cell.setCenterX(xCell + this.vectorX);
-            cell.setCenterY(yCell + this.vectorY);
+            cell.move(this.vectorX, this.vectorY);
         }
     }
     
@@ -94,7 +91,7 @@ public class Player {
         double y = yFinal - this.getCenterY();
         double x = xFinal - this.getCenterX();
         double r = Math.sqrt(y*y + x*x);
-        if((double)this.getCell(0).getRadio() > r){
+        if(this.getCell(0).getRadio() > r){
             y = 0;
             x = 0;
         }

@@ -209,7 +209,7 @@ public class Player implements Serializable {
             this.font = new Font("Ubuntu",Font.BOLD,r/2);
             FontMetrics metrics = g.getFontMetrics(font);
             int xt =(int) x - metrics.stringWidth(nickname)/2;
-            int yt = (int) (y + metrics.getLeading()) ;
+            int yt = (int) (y + r/4) ;
             g.setFont(font);
             g.drawString(nickname, xt , yt);
         } 

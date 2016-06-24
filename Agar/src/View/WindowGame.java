@@ -120,7 +120,6 @@ public class WindowGame extends JFrame{
     
     @Override
     public void paint(Graphics g){
-        //this.loginWindow.paint(g);
         if(this.ds != null){
             this.ds.paint(g);
         }

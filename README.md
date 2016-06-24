@@ -16,8 +16,9 @@ Para mayor referencia del juego podrá ver: http://agar.io
 
 ## Instalación
 
-* Ejecutar servidor.cmd
-* Ejecutar cliente.cmd
+* Ejecutar [compilar.cmd](/Agar/src/compilar.cmd)
+* Ejecutar [servidor.cmd](/Agar/src/servidor.cmd)
+* Ejecutar [cliente.cmd](/Agar/src/cliente.cmd) para cada jugador que desee unirse.
 
 ## Autor
 

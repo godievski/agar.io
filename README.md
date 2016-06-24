@@ -12,7 +12,7 @@ El presente trabajo es un aplicativo en JAVA, en forma cliente/servidor que impl
 
 Para mayor referencia del juego podrá ver: http://agar.io
 
-## Prerequisitos
+## Prerrequisitos
 
 * JDK 7
 

@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class Player implements Serializable {
     private static final double INIT_VEL = 3.5;
+    private static final int TIME_CREATION_MAX = 10000; 
     
     private int id;
     private String nickname;
@@ -28,6 +29,7 @@ public class Player implements Serializable {
         this.nickname = nickname;
         Cell cell = new Cell(xMax, yMax);
         cell.setVirus(false);
+        cell.setPrincipal(true);
         this.cells = new ArrayList<>();
         this.cells.add(cell);
         this.vectorX = this.vectorY = this.vel = 0;
@@ -67,6 +69,29 @@ public class Player implements Serializable {
         else 
             return null;
     }
+    
+    public void incrementTimeCreation(int time){
+        for(int i = 0; i < this.cells.size(); i++){
+            Cell cell = this.cells.get(i);
+            if (!cell.getPrincipal())
+                cell.incrementTimeCreation(time);
+        }
+    }
+    
+    public void fusion(){
+        for(int i = this.cells.size() - 1; i > 0; i--){
+            Cell cell = this.cells.get(i);
+            if (!cell.getPrincipal()){
+                if(cell.getTimeCreation() >= TIME_CREATION_MAX){
+                    Cell cellFusion = this.cells.get(i-1);
+                    cellFusion.incrementMass(cell.getMass());
+                    this.cells.remove(i);
+                    this.recalculatePositionCells();
+                }
+            }
+        }
+    }
+    
     public void split(){
         int last = this.cells.size() - 1;
         if (this.getCell(last).getMass() > 2*Cell.INIT_MASS){
@@ -189,6 +214,9 @@ public class Player implements Serializable {
     public void reset() {
         this.mustDie = false;
         this.cells.clear();
-        this.cells.add(new Cell());
+        Cell cell = new Cell();
+        cell.setVirus(false);
+        cell.setPrincipal(true);
+        this.cells.add(cell);
     }
 }

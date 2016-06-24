@@ -21,6 +21,8 @@ public class Cell implements Serializable {
     private static Random rand = new Random();
     private boolean virus;
     private int id; //PARA CUANDO SEAN VIRUS
+    private int timeCreation;
+    private boolean principal;
     
     public Cell(){
         this.centerX = rand.nextInt(3*WindowGame.WINDOW_WIDTH/4)+ WindowGame.WINDOW_WIDTH/8;
@@ -30,6 +32,7 @@ public class Cell implements Serializable {
         int b = rand.nextInt(MAX_RANGE_COLOR);
         this.color = new Color(r,g,b);
         this.mass = INIT_MASS;
+        this.timeCreation = 0;
     }
     public Cell(int xMax, int yMax){
         this.centerX = rand.nextInt(3*xMax/4)+ xMax/8;
@@ -39,6 +42,7 @@ public class Cell implements Serializable {
         int b = rand.nextInt(MAX_RANGE_COLOR);
         this.color = new Color(r,g,b);
         this.mass = INIT_MASS;
+        this.timeCreation = 0;
     }
     
     public Cell(int xMax, int yMax,boolean virus){
@@ -51,8 +55,23 @@ public class Cell implements Serializable {
         this.color = new Color(r,g,b);
         this.mass = INIT_MASS/2;
         this.virus = virus;
+        this.timeCreation = 0;
     }
-    
+    public void setPrincipal(boolean value){
+        this.principal = value;
+    }
+    public boolean getPrincipal(){
+        return this.principal;
+    }
+    public int getTimeCreation(){
+        return this.timeCreation;
+    }
+    public void setTimeCreation(int time){
+        this.timeCreation = time;
+    }
+    public void incrementTimeCreation(int time){
+        this.timeCreation += time;
+    }
     public void setID(int id){
         this.id = id;
     }

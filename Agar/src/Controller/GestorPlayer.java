@@ -97,5 +97,17 @@ public class GestorPlayer extends UnicastRemoteObject implements IGestorPlayer{
     public Player getPlayerIterator(int index) throws RemoteException{
         return this.players.get(index);
     }
-
+    
+    public void incrementTimeDuration(int id,int time) throws RemoteException{
+        Player p = this.getPlayerID(id);
+        if(p != null){
+            p.incrementTimeCreation(time);
+        }
+    }
+    public void fusion(int id)throws RemoteException{
+        Player p = this.getPlayerID(id);
+        if(p != null){
+            p.fusion();
+        }
+    }
 }

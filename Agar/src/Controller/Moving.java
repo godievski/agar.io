@@ -34,6 +34,8 @@ public class Moving extends Thread{
                 gp.mover(id, xFinal, yFinal);
                 gp.checkCollisionVirus(id);
                 Thread.sleep(INTERVALO);
+                gp.incrementTimeDuration(id, INTERVALO);
+                gp.fusion(id);
             } catch (RemoteException | InterruptedException ex) {
                 Logger.getLogger(Moving.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -26,4 +26,6 @@ public interface IGestorPlayer extends Remote{
     public void split(int id) throws RemoteException;
     public ArrayList getTop() throws RemoteException;
     public Player getPlayerIterator(int index) throws RemoteException;
+    public void incrementTimeDuration(int id,int time) throws RemoteException;
+    public void fusion(int id)throws RemoteException;
 }

@@ -16,9 +16,9 @@ Para mayor referencia del juego podrá ver: http://agar.io
 
 ## Instalación
 
-* Ejecutar [compilar.cmd](/Agar/src/compilar.cmd)
-* Ejecutar [servidor.cmd](/Agar/src/servidor.cmd)
-* Ejecutar [usuario.cmd](/Agar/src/usuario.cmd) para cada jugador que desee unirse.
+* Ejecutar [compilar.cmd](/Agar/src/compilar.cmd) para crear los .*class.
+* Ejecutar [servidor.cmd](/Agar/src/servidor.cmd) para lanzar el servidor.
+* Ejecutar [usuario.cmd](/Agar/src/usuario.cmd) para cada jugador que desee unirse :smiley:.
 
 ## Autor
 

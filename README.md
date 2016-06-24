@@ -16,8 +16,8 @@ Java
 
 ## Instalación
 
-Ejecutar servidor.cmd
-Ejecutar cliente.cmd
+* Ejecutar servidor.cmd
+* Ejecutar cliente.cmd
 
 ## Autor
 

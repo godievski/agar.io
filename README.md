@@ -12,7 +12,7 @@ Para mayor referencia del juego podrá ver: http://agar.io
 
 ## Prerequisitos
 
-Java
+* JDK 7
 
 ## Instalación
 
@@ -21,7 +21,7 @@ Java
 
 ## Autor
 
-Godievski
+* Godievski
 
 ## License
 

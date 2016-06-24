@@ -6,7 +6,9 @@ El presente trabajo es un aplicativo en JAVA, en forma cliente/servidor que impl
 
 ## Instrucciones
 
-El movimiento de los jugadores, los cuales se representan por círculos, debe ser solo dentro de la ventana del juego, por ningún motivo podrá salir de la ventana.
+* Guía a tu jugador mediante el mouse.
+* Puedes comerte los círculos más pequeños así como otros jugadores de menor masa cuando haya una colisión.
+* Puedes presionar la tecla spacebar para dividirte en dos círculos de igual masa por cierto tiempo.
 
 Para mayor referencia del juego podrá ver: http://agar.io
 

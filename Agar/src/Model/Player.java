@@ -40,6 +40,7 @@ public class Player implements Serializable {
     public int getID(){
         return this.id;
     }
+    
     public String getNickname(){
         return this.nickname;
     }
@@ -47,6 +48,7 @@ public class Player implements Serializable {
     public boolean getMustDie(){
         return this.mustDie;
     }
+    
     public void updateExistence(){
         this.mustDie = this.cells.isEmpty();
     }
@@ -57,12 +59,14 @@ public class Player implements Serializable {
         else
             return -1;
     }
+    
     public double getCenterY(){
         if (cells.size() >= 1)
             return this.cells.get(0).getCenterY();
         else
             return -1;
     }
+    
     public Cell getCell(int index){
         if (cells.size() > 0 && index < cells.size())
             return this.cells.get(index);
@@ -124,6 +128,7 @@ public class Player implements Serializable {
             cell.move(this.vectorX, this.vectorY);
         }
     }
+    
     public void calcularVelocidad(){
         int totalMass = this.getMass();
         this.vel = INIT_VEL - 1/Math.log10(totalMass);

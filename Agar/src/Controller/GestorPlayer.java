@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 /**
@@ -90,10 +92,23 @@ public class GestorPlayer extends UnicastRemoteObject implements IGestorPlayer{
         }
     }
     
-    public ArrayList getTop() throws RemoteException{
-        ArrayList<Player> playersTop = new ArrayList<>();
-        return playersTop;
+    public ArrayList getTop(int n) throws RemoteException{
+        ArrayList<Player> playersTop = new ArrayList<Player>(players);
+        Collections.sort(playersTop, new Comparator<Player>() {
+            @Override
+            public int compare(Player p1, Player p2) {
+                return p2.getMass() - p1.getMass();
+            }            
+        });
+        
+        if (playersTop.size() > n) {
+            playersTop.subList(n, playersTop.size()).clear();
+            return playersTop;
+        } else {
+            return playersTop;
+        }
     }
+    
     public Player getPlayerIterator(int index) throws RemoteException{
         return this.players.get(index);
     }
@@ -104,6 +119,7 @@ public class GestorPlayer extends UnicastRemoteObject implements IGestorPlayer{
             p.incrementTimeCreation(time);
         }
     }
+    
     public void fusion(int id)throws RemoteException{
         Player p = this.getPlayerID(id);
         if(p != null){

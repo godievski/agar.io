@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import Model.Player;
@@ -24,7 +19,7 @@ public interface IGestorPlayer extends Remote{
     public boolean mover(int id,double x, double y) throws RemoteException;
     public void checkCollisionVirus(int id) throws RemoteException;
     public void split(int id) throws RemoteException;
-    public ArrayList getTop() throws RemoteException;
+    public ArrayList getTop(int n) throws RemoteException;
     public Player getPlayerIterator(int index) throws RemoteException;
     public void incrementTimeDuration(int id,int time) throws RemoteException;
     public void fusion(int id)throws RemoteException;

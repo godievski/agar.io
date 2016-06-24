@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import Model.Cell;
@@ -16,7 +11,6 @@ import java.rmi.RemoteException;
  * @author Godievski
  */
 public interface IGestorVirus extends Remote{
-    
     public void createVirus() throws RemoteException;
     public int size() throws RemoteException;
     public void deleteVirus(int id) throws RemoteException;

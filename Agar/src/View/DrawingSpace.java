@@ -7,6 +7,7 @@ import Model.Player;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.rmi.RemoteException;
@@ -85,9 +86,8 @@ public class DrawingSpace extends Canvas{
         
         //DRAW LADERBOARD
         try {
-            ArrayList<Player> tops;
-            tops = players.getTop();
-            paintLaderBoard(tops, g);
+            ArrayList<Player> tops = players.getTop(5);
+            paintLaderBoard(tops, gAux);
         } catch (RemoteException ex) {
             Logger.getLogger(DrawingSpace.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -98,12 +98,21 @@ public class DrawingSpace extends Canvas{
     
     
     private void paintLaderBoard(ArrayList<Player> tops, Graphics g){
-        
+        g.setFont(new Font("Ubuntu",Font.BOLD,20));
+        g.drawString("LEADERBOARD", (int) dimPanel.getWidth()-195, 30);
+        g.drawString("-----------------------", (int) dimPanel.getWidth()-200, 40);
+        int i = 50;
+        for (Player p : tops) {
+            i += 20;
+            g.setFont(new Font("Ubuntu",Font.BOLD,15));
+            g.drawString(p.getNickname() + ':', (int) dimPanel.getWidth()-180, i);
+            g.drawString(p.getMass() + "", (int) dimPanel.getWidth()-100, i);
+        }
     }
     
     private void renderPlayers(IGestorPlayer players,Graphics g) throws RemoteException{
-        for(int i = 0; i < players.size(); i++){
-            try{
+        for(int i = 0; i < players.size(); ++i){
+            try {
                 Player p = players.getPlayerIterator(i);
                 p.render(g, 1);
             } catch(Exception ex){}
@@ -111,7 +120,7 @@ public class DrawingSpace extends Canvas{
     }
     
     private void renderVirus(IGestorVirus virus,Graphics g) throws RemoteException{
-        for(int i = 0; i < virus.size(); i++){
+        for(int i=0; i<virus.size(); ++i){
             try{
                 Cell c = virus.getVirus(i);
                 c.render(g, 1);

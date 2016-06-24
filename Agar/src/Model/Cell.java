@@ -34,6 +34,7 @@ public class Cell implements Serializable {
         this.mass = INIT_MASS;
         this.timeCreation = 0;
     }
+    
     public Cell(int xMax, int yMax){
         this.centerX = rand.nextInt(3*xMax/4)+ xMax/8;
         this.centerY = rand.nextInt(3*yMax/4)+ yMax/8;
@@ -57,33 +58,43 @@ public class Cell implements Serializable {
         this.virus = virus;
         this.timeCreation = 0;
     }
+    
     public void setPrincipal(boolean value){
         this.principal = value;
     }
+    
     public boolean getPrincipal(){
         return this.principal;
     }
+    
     public int getTimeCreation(){
         return this.timeCreation;
     }
+    
     public void setTimeCreation(int time){
         this.timeCreation = time;
     }
+    
     public void incrementTimeCreation(int time){
         this.timeCreation += time;
     }
+    
     public void setID(int id){
         this.id = id;
     }
+    
     public int getID(){
         return this.id;
     }
+    
     public void setColor(Color color){
         this.color = color;
     }
+    
     public Color getColor(){
         return this.color;
     }
+    
     public Cell(double x, double y, Color color, int mass){
         this.centerX = x;
         this.centerY = y;
@@ -94,6 +105,7 @@ public class Cell implements Serializable {
     public void setVirus(boolean virus){
         this.virus = virus;
     }
+    
     public boolean getVirus(){
         return this.virus;
     }
@@ -108,9 +120,11 @@ public class Cell implements Serializable {
     public double getCenterY() {
         return centerY;
     }
+    
     public void setCenterY(double centerY) {
         this.centerY = centerY;
     }
+    
     public void move(double x, double y){
         this.centerX += x;
         this.centerY += y;
@@ -119,9 +133,11 @@ public class Cell implements Serializable {
     public int getMass() {
         return mass;
     }
+    
     public void setMass(int mass) {
         this.mass = mass;
     }
+    
     public void incrementMass(int value){
         this.mass += value;
     }
@@ -129,6 +145,7 @@ public class Cell implements Serializable {
     public int getRadio(){
         return (int)Math.sqrt(this.mass / Math.PI );
     }
+    
     public void render(Graphics g, double scale){
         int r = this.getRadio();
         g.setColor(this.color);

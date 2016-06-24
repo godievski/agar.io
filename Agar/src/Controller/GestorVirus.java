@@ -30,6 +30,7 @@ public class GestorVirus extends UnicastRemoteObject implements IGestorVirus{
             this.virus.add(newVirus);
         }
     }
+    
     public int size() throws RemoteException{
         return this.virus.size();
     }
@@ -67,6 +68,7 @@ public class GestorVirus extends UnicastRemoteObject implements IGestorVirus{
             }
         }
     }
+    
     public Cell getVirus(int index) throws RemoteException{
         return this.virus.get(index);
     }

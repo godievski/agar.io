@@ -29,8 +29,8 @@ public class Server {
             GestorPlayer gp = new GestorPlayer(gv);
             Collision collision = new Collision(gp,gv);
             Infecting infecting = new Infecting(gv);
-            Naming.rebind("virus", gv);
-            Naming.rebind("players", gp);
+            Naming.rebind("//localhost:1099/virus", gv);
+            Naming.rebind("//localhost:1099/players", gp);
             collision.start();
             infecting.start();
             System.out.println("Server created");

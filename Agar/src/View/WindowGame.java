@@ -62,10 +62,7 @@ public class WindowGame extends JFrame{
         this.nick = this.loginWindow.getNickname();
         try {
             this.id = this.players.addNewPlayer(nick, this.getWidth(), this.getHeight());
-            //this.players.addNewPlayer("xxx", this.getWidth()*2, this.getHeight()*2);
-            //this.players.getPlayer("xxx").getCell(0).setCenterX(this.getWidth()/2);
-            //this.players.getPlayer("xxx").getCell(0).setCenterY(this.getHeight()/2);
-            //this.players.getPlayer(id).getCell(0).setMass(5000);
+            this.ds.setID(this.id);
         } catch (RemoteException ex) {
             Logger.getLogger(WindowGame.class.getName()).log(Level.SEVERE, null, ex);
         }

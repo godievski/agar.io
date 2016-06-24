@@ -27,12 +27,14 @@ public class DrawingSpace extends Canvas{
     
     private IGestorPlayer players;
     private IGestorVirus virus;
+    private int id;
     
     public DrawingSpace(IGestorPlayer players,IGestorVirus virus, Dimension d){
         this.players = players;
         this.virus = virus;
         this.setSize(d);
         this.dimPanel = d;
+        this.id = -1;
     }
     
     @Override
@@ -88,6 +90,9 @@ public class DrawingSpace extends Canvas{
         try {
             ArrayList<Player> tops = players.getTop(5);
             paintLaderBoard(tops, gAux);
+            if (this.id != -1){
+                this.paintOwnScore(gAux);
+            }
         } catch (RemoteException ex) {
             Logger.getLogger(DrawingSpace.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -96,17 +101,29 @@ public class DrawingSpace extends Canvas{
         g.dispose();
     }
     
+    public void setID(int value){
+        this.id = value;
+    }
+    private void paintOwnScore(Graphics g) throws RemoteException{
+        g.setColor(Color.DARK_GRAY);
+        g.setFont(new Font("Ubuntu",Font.BOLD,14));
+        int score = this.players.getPlayerID(this.id).getMass();
+        g.drawString("SCORE: "+ score,10,(int) dimPanel.getHeight() - 40);
+    }
     
     private void paintLaderBoard(ArrayList<Player> tops, Graphics g){
-        g.setFont(new Font("Ubuntu",Font.BOLD,20));
-        g.drawString("LEADERBOARD", (int) dimPanel.getWidth()-195, 30);
-        g.drawString("-----------------------", (int) dimPanel.getWidth()-200, 40);
-        int i = 50;
+        g.setColor(Color.DARK_GRAY);
+        g.setFont(new Font("Ubuntu",Font.BOLD,15));
+        g.drawString("LEADERBOARD", (int) dimPanel.getWidth()-150, 30);
+        g.drawString("-----------------------", (int) dimPanel.getWidth()-150, 40);
+        int i = 30;
+        int pos = 1;
         for (Player p : tops) {
             i += 20;
-            g.setFont(new Font("Ubuntu",Font.BOLD,15));
-            g.drawString(p.getNickname() + ':', (int) dimPanel.getWidth()-180, i);
-            g.drawString(p.getMass() + "", (int) dimPanel.getWidth()-100, i);
+            g.setFont(new Font("Ubuntu",Font.BOLD,12));
+            g.drawString(pos+". "+p.getNickname() + ':', (int) dimPanel.getWidth()-150, i);
+            g.drawString(p.getMass() + "", (int) dimPanel.getWidth()-75, i);
+            pos += 1;
         }
     }
     
